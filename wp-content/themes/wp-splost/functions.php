@@ -79,6 +79,9 @@ function twentyten_setup() {
 
 	// This theme uses post thumbnails
 	add_theme_support( 'post-thumbnails' );
+	set_post_thumbnail_size( 150, 150, true ); // 780 pixels wide by 150 pixels tall, crop mode
+	add_image_size( 'top-img', 780, 150 ); 
+
 
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
@@ -507,8 +510,6 @@ function the_slug() {
 $post_data = get_post($post->ID, ARRAY_A);
 $slug = $post_data['post_name'];
 return $slug; }
-
-set_post_thumbnail_size( 780, 150, true ); // 780 pixels wide by 150 pixels tall, crop mode
 
 // function the_Pslug() {
 // $post_data = get_the_title($parent->ID);
