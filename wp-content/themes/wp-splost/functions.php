@@ -78,9 +78,15 @@ function twentyten_setup() {
 	add_editor_style();
 
 	// This theme uses post thumbnails
-	add_theme_support( 'post-thumbnails' );
-	set_post_thumbnail_size( 150, 150, true ); // 780 pixels wide by 150 pixels tall, crop mode
-	add_image_size( 'top-img', 780, 150 ); 
+add_theme_support( 'post-thumbnails' );
+if ( function_exists( 'add_theme_support' ) ) { 
+add_theme_support( 'post-thumbnails' );
+set_post_thumbnail_size( 780, 150, true ); //(cropped)
+
+// additional image sizes
+// delete the next line if you do not need additional image sizes
+add_image_size( 'top-img', 750, 128 ); 
+}
 
 
 	// Add default posts and comments RSS feed links to head
