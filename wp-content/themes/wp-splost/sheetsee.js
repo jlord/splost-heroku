@@ -23,12 +23,6 @@ function getCurrentMonth() {
   return month
 }
 
-// function getCurrentMonth() {
-//   var monthNames = [ "January", "February", "March", "April", "May", "June",
-//     "July", "August", "September", "October", "November", "December" ];
-//   return monthNames[d.getMonth()]  
-// }
-
 function getCatTotal(projects) {
 	var catTotal = 0
   projects.forEach(function (element) {
@@ -80,8 +74,8 @@ function amountSpent(projects) {
    function getMonthlyType(projects, projectFilter) {
     var filteredProjects = []
     projects.forEach(function (element) {
-      var type = "focusarea"
-      var projectType = element[type]
+      var focusArea = "focusarea"
+      var projectType = element[focusArea]
       if (projectType === projectFilter) filteredProjects.push(element)
   })
   return filteredProjects
