@@ -142,9 +142,7 @@ Template Name: Focus Area Template
     
     
 <script id="stats" type="text/html">
- <h5>Project Status: </h5>
- <p><span class="statHighlight">{{isActive}}</span></p>
- <h5>Total Spent as of {{currentDate}}:</h5>
+ <h5>This Focus Area has __ projects in progress</h5>
  <p><span class="statHighlight">{{totalSpent}}</span></p>
 </script>
   
@@ -230,7 +228,6 @@ Template Name: Focus Area Template
     var catTotal = getCatTotal(thePageParent)
 
     var monthlyrev = getMonthlyType(tabletop.sheets("actuals").all(), pageName)
-    console.log(monthlyrev)
     var reportmonth = getCurrentMonth() - 1
     var reportyear = getCurrentYear()
 
