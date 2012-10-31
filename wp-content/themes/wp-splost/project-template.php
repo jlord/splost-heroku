@@ -11,56 +11,70 @@ Template Name: Focus Area Template
 <div id="maincontainer" class="projectPage" >
 
 <?php the_post_thumbnail(); ?>
-<h3>Description</h3>
- <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+<div class="articleHolder">
+  <h3>Description</h3>
+   <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
-  <div class="content-text">
-    <?php // this pulls out image tags from the_content so that only the text appears in this div
-    ob_start();
-    the_content('Read the full post',true);
-    $postOutput = preg_replace('/<img[^>]+./','', ob_get_contents());
-    ob_end_clean();
-    echo $postOutput;
-    ?>
-  </div>
+    <div class="content-text">
+      <?php // this pulls out image tags from the_content so that only the text appears in this div
+      ob_start();
+      the_content('Read the full post',true);
+      $postOutput = preg_replace('/<img[^>]+./','', ob_get_contents());
+      ob_end_clean();
+      echo $postOutput;
+      ?>
+    </div>
+  </div><!-- end holder -->
               
-  <h3>Location & Quick Stats</h3>
-    <div id="map" class="halfmap"><img class="spinner" src="/wp-content/themes/wp-splost/fbi_spinner.gif"></div>
-    <div id="stats" class="halfstats"></div>
-    <div class="clear"></div>
+  <div class="articleHolder">
+    <h3>Location & Quick Stats</h3>
+      <div id="stats" ></div>
+      <div id="map" class="fullmap"><img class="spinner" src="/wp-content/themes/wp-splost/fbi_spinner.gif"></div>
+      <div class="clear"></div>
+  </div><!-- end holder -->
 
-  <h3>Category Funding Comparison</h3>
-    <p>Below, a funds comparison between the projects in <?php echo get_the_title($post->post_parent) ?>.</p>
-    <div id="holder"></div>
+  <div class="articleHolder">
+    <h3>Category Funding Comparison</h3>
+      <p>Below, a funds comparison between the projects in <?php echo get_the_title($post->post_parent) ?>.</p>
+      <div id="holder"></div>
+  </div><!-- end holder -->
 
-  <h3>Funding Schedule</h3>
-    <div id="table"></div>
+  <div class="articleHolder">
+    <h3>Funding Schedule</h3>
+      <p>The projected dispersal of funds for <?php the_title(); ?>.</p>
+      <div id="table"></div>
+  </div><!-- end holder -->
 
   <!-- only if this project has a report -->
-  <div id="monthly"></div>
+  <div class="articleHolder">
+    <div id="monthly"></div>
+  </div><!-- end holder -->
 
-  <div id="pagePhotos">
-    <?php // check if post has gallery, if so, display it
-      if (strpos($post->post_content,'[gallery') === false){
-      $gallery = 0;}
-      else {
-      $gallery = 1;}
+  <div class="articleHolder">
+    <div id="pagePhotos">
+      <?php // check if post has gallery, if so, display it
+        if (strpos($post->post_content,'[gallery') === false){
+        $gallery = 0;}
+        else {
+        $gallery = 1;}
 
-      if ($gallery === 1) {
-      echo "<h3>Project Photos</h3>";
-      echo do_shortcode('[gallery option1="value1" columns="5"]'); }
-    ?>
-  
-  <div class="content-img">
-    <?php // if a photo is added not in a gallery
-    preg_match_all("/(<img [^>]*>)/",get_the_content(),$matches,PREG_PATTERN_ORDER);
-    for( $i=0; isset($matches[1]) && $i < count($matches[1]); $i++ ) {
-      $beforeEachImage = '<a href="#">';
-      $afterEachImage = '</a>';
-      echo $beforeEachImage . $matches[1][$i] . $afterEachImage;}?>
-  </div>
-</div><!-- end photos -->
+        if ($gallery === 1) {
+        echo "<h3>Project Photos</h3>";
+        echo do_shortcode('[gallery option1="value1" columns="5"]'); }
+      ?>
+    
+    <div class="content-img">
+      <?php // if a photo is added not in a gallery
+      preg_match_all("/(<img [^>]*>)/",get_the_content(),$matches,PREG_PATTERN_ORDER);
+      for( $i=0; isset($matches[1]) && $i < count($matches[1]); $i++ ) {
+        $beforeEachImage = '<a href="#">';
+        $afterEachImage = '</a>';
+        echo $beforeEachImage . $matches[1][$i] . $afterEachImage;}?>
+    </div>
+    </div><!-- end photos -->
+  </div><!-- end holder -->
                   
+  <div class="articleHolder">              
   <div class="wholemilk">
       <h3>Related News Posts</h3>
       <p>Recent news entries about <?php the_title(); ?>. You can also subscribe to the <a href="http://www.splost.info/?tag=<?php echo the_slug() ?>&feed=rss2">RSS Feed</a> for updates on <?php the_title() ?>, or if you'd like, this <a href="http://www.splost.info/feed=rss2">RSS Feed</a> for all SPLOST updates.
@@ -86,6 +100,7 @@ Template Name: Focus Area Template
       <h3>Relevant Documents</h3>
          // what if docs were individual posts that didn't come up in feed but you can query? -->
     </div>
+    </div><!-- end holder -->
 
   <div id="sharing">
     <p>Share this page: </p>
@@ -142,8 +157,8 @@ Template Name: Focus Area Template
     
     
 <script id="stats" type="text/html">
- <h5>This Focus Area has __ projects in progress</h5>
- <p><span class="statHighlight">{{totalSpent}}</span></p>
+ <h5>This Focus Area has <span class="statHighlight">{{numberItemizedProjects}}</span> projects, <span class="statHighlight">{{numberInProgress}}</span> of which labeled in progress.</h5>
+ <h5>To date, <span class="statHighlight">{{sumInProgress}}</span> has been spent on the projects in progress.</h5>
 </script>
   
 <script id="schedule" type="text/html">
@@ -154,7 +169,7 @@ Template Name: Focus Area Template
   </tr>
   </thead>
   {{#rows}}
-    <tr><td class = "project">{{project}}</td><td class="total">{{total}}</td><td class="yrdolls">{{year2012}}</td><td class="yrdolls">{{year2013}}</td><td class="yrdolls">{{year2014}}</td><td class="yrdolls">{{year2015}}</td><td class="yrdolls">{{year2016}}</td><td class="yrdolls">{{year2017}}</td><td class="yrdolls">{{year2018}}</td><td class="yrdolls">{{year2019}}</td></tr>
+    <tr><td class = "project">{{focusarea}}</td><td class="total">{{total}}</td><td class="yrdolls">{{year2012}}</td><td class="yrdolls">{{year2013}}</td><td class="yrdolls">{{year2014}}</td><td class="yrdolls">{{year2015}}</td><td class="yrdolls">{{year2016}}</td><td class="yrdolls">{{year2017}}</td><td class="yrdolls">{{year2018}}</td><td class="yrdolls">{{year2019}}</td></tr>
   {{/rows}}
   </table>
 </script>
@@ -172,20 +187,24 @@ Template Name: Focus Area Template
      var pageName = "<?php the_title(); ?>"
      var thePageParent = getType(data, pageParent)
      var thePageName  = getProject(data, pageName)
-     // var downtownC  = getProject(data, "Downtown Corridor")
+
+     // make map 
 
      var map = loadMap()
      thePageName.forEach(function (thePageName){
        displayAddress(map, thePageName)
      })
 
+     // make bar chart
+
      function pushBits(element) {
         values.push(parseInt(element.total))
-        labels.push(element.project)
+        labels.push(element.focusarea)
         hexcolors.push(element.hexcolor)
       }
 
-      // axis variables
+      // -- axis variables
+
       var noProjsInCat = thePageParent.length 
       var chartHeight = noProjsInCat * 40
       var axisY =  chartHeight
@@ -196,6 +215,8 @@ Template Name: Focus Area Template
         else axisLength = chartHeight * .5 
           return axisLength
       }
+
+      // -- set up chart
           
       var r = Raphael("holder")
       var values = []
@@ -221,24 +242,33 @@ Template Name: Focus Area Template
       axis = r.g.axis(160, axisY, makeAxisLength(), noProjsInCat, null,noProjsInCat - 1,1, labels.reverse(), null, 1);
       axis.text.attr({font:"12px Arvo", "font-weight": "regular", "fill": "#333333"});     
       
-    var numberActive = getActiveProjects(thePageName).length
+    // variables to fill in tables 
+    // var numberActive = getActiveProjects(thePageName).length  
+    var itemizedArea = getMonthlyType(tabletop.sheets("actuals").all(), pageName)
+    var inProgress = getInProgress(itemizedArea)
+    var sumInProgress = inProgressSpent(itemizedArea)
+    console.log(sumInProgress)
     var numberTotalProjects = data.length
-    // var numberCompletedProjects = completedProjects(thePageName)
     var totalSpent = amountSpent(thePageName)
     var catTotal = getCatTotal(thePageParent)
+
+    // -- monthly expense table
 
     var monthlyrev = getMonthlyType(tabletop.sheets("actuals").all(), pageName)
     var reportmonth = getCurrentMonth() - 1
     var reportyear = getCurrentYear()
 
 
-  //These populate the page's tables 
+     // These define the tables 
 
      var stats = ich.stats({
+      "numberItemizedProjects": itemizedArea.length,
+      "numberInProgress": inProgress.length,
+      "sumInProgress": accounting.formatMoney(sumInProgress),
       "projectTotal":    accounting.formatMoney(),
        "categoryTotal":       accounting.formatMoney(catTotal),
        "isActive":         isActive(thePageName),
-       "numberActive":        numberActive,
+       // "numberActive":        numberActive,
        "numberTotalProjects":     numberTotalProjects,
        // "numberCompletedProjects":   numberCompletedProjects,
       "totalSpent":        accounting.formatMoney(totalSpent),
@@ -250,7 +280,6 @@ Template Name: Focus Area Template
     }) 
 
     var monthly = ich.monthly({
-      // "rows": monthlyrev,
       "rows": turnReportCurrency(monthlyrev),
       "reportyear": reportyear,
       "reportmonth": reportmonth
@@ -259,7 +288,6 @@ Template Name: Focus Area Template
     document.getElementById('stats').innerHTML = stats; 
     document.getElementById('table').innerHTML = schedule;
     document.getElementById('monthly').innerHTML = monthly;
-
    }
 </script>
 

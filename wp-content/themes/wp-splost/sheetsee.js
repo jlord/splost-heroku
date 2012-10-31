@@ -92,9 +92,8 @@ return filteredProjects
 function getProject(projects, projectFilter){
   var oneProject = []
   projects.forEach(function (element) {
-	  var proj = "project"
-	  var projName = element[proj]
-	  if (projName === projectFilter) oneProject.push(element)
+	  var name = element[focusAreaColumn]
+	  if (name === projectFilter) oneProject.push(element)
 })
 return oneProject
 }
@@ -106,11 +105,11 @@ function getMoney(value) {
  
 function turnCurrency(projects) {
   projects.forEach(function (project) {
-    var totalMoney = getMoney(focusAreaColumn.total)
-    if (totalMoney) focusAreaColumn.total = totalMoney
+    var totalMoney = getMoney(project.total)
+    if (totalMoney) project.total = totalMoney
     YEARS.forEach(function (year){
       var totalYear = getMoney(project[year])
-      if (totalYear) focusAreaColumn[year] = totalYear
+      if (totalYear) project[year] = totalYear
     })
   })
 return projects
@@ -137,6 +136,25 @@ function turnMonthlyCurrency(projects) {
   if (budgetedMoney) project.budgeted = budgetedMoney
   })
   return projects
+}
+
+function getInProgress (projects) {
+  var inProgress = []
+  projects.forEach(function (project) {
+    if (project.status.match(/in progress/i)) inProgress.push(project)
+  })
+  return inProgress
+}
+
+function inProgressSpent (projects) {
+  var inProgressDollars = []
+  projects.forEach(function (project) {
+    if (project.ptdactual === "") return 
+    inProgressDollars.push(+project.ptdactual) 
+  })
+  return inProgressDollars.reduce(function(a,b) {
+    return a + b
+  })
 }
   
 function comboArrays(projectsA, projectsB) {
@@ -183,11 +201,11 @@ function getActiveProjects(projects) {
 // Mappin' with Leaflet.js
 
 function displayAddress(map, project) {
-	var markerLocation = new L.LatLng(project.lat, project.long);
-	setCenter(map, markerLocation)
-	var marker = new L.Marker(markerLocation);
-	map.addLayer(marker);
-	marker.bindPopup(project.focusarea).openPopup();
+  var markerLocation = new L.LatLng(project.lat, project.long);
+  setCenter(map, markerLocation)
+  var marker = new L.Marker(markerLocation);
+  map.addLayer(marker);
+  marker.bindPopup(project[focusAreaColumn]).openPopup();
 }
 
 function loadMap() {

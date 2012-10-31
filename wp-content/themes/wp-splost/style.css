@@ -278,18 +278,16 @@ tr {border-bottom: 1px dotted #acacac;}
 .tableheader {border: none;} 
 #schedule table, #monthly table {width: 100%; margin-top: 20px;}
 /* **** Stats ***** */
-.statHighlight {background-color: #BCEDDC; padding: 4px; margin-right: 3px;}
-#stats p {margin: 0px 0px 9px 0px;}
-#stats.halfstats {width: 40%; float: left; height: 300px; margin: 0px;}
-#stats.halfstats p {margin: 0px 0px 0px 15px;}
-#stats {margin-bottom: 15px;}
-#stats h5 {margin: 5px 0px 6px 15px;}
-#stats p {line-height: 2em;}
+/* .statHighlight {background-color: #BCEDDC; padding: 4px; margin-right: 3px;} */
+.statHighlight {background-color: #fff; border: 1px dashed #e6e6e6; padding: 4px; margin-right: 3px;}
+#stats p {margin: 0px 0px 9px 0px; line-height: 2em;}
+#stats {margin-bottom: 15px; background: #eee; padding: 20px;}
+#stats h5 {line-height: 32px;}
 
 
 /* **** Map ***** */
 #map.halfmap {width: 60%; float: left; height: 300px;}
-#map.fullmap {width: 100%; height: 300px;}
+#map.fullmap {width: 100%; height: 300px; margin-top: 20px;}
 /*#map {overflow: auto;}
 */
 .intro a {border-bottom: 1px dotted #acacac; padding-bottom: 2px;}
@@ -367,8 +365,6 @@ ul.linkList, li.linkList {list-style: circle; margin-bottom: 8px; margin-left: 1
 #monthly tr:nth-child(even) {background: #eeeeee;}
 #monthly tr:nth-child(odd) {background: #FFF;}
 
-.schedTable, .monthlytable {margin-bottom: 35px;}
-
 .contactlist li {line-height: 2em; font-size: 16px; }
 .contactlist li a {font-family: Open Sans, Arial, sans-serif;}
 
@@ -390,5 +386,5 @@ thead {border-bottom: 1px solid #333;}
 }
 
 .spinner {text-align: center;}
-
 .content-img a {border: none;}
+.articleHolder {padding-bottom: 30px;}
