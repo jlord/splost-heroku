@@ -26,78 +26,60 @@ function getCurrentMonth() {
   return month
 }
 
-// these work with the first spreadsheet 
+// ---------------------------------------------------- //
 
-function getProjectTotal(project) {
-  var projectTotal = project[tot]
-  return projectTotal
-}
-
-function getCatTotal(projects) {
-	var catTotal = 0
-  projects.forEach(function (element) {
-    var projectTotal = element[tot]
-	  catTotal += parseInt(projectTotal)
-  })
-  return catTotal
-}
-
-function completedProjects(projects) {
-  var completed = 0
-  projects.forEach(function (project) {
-    if (!hasActiveFuture(project)) completed = completed + 1
-  })
-  return completed      
-}
-
-function isActive(element) {
-  var currentYear = "year" + getCurrentYear()
-  var dollars = element[currentYear]
-  if (dollars > 0) return true
-  return false
-}
-
-function amountSpent(projects) {
-  var spent = 0
-  projects.forEach(function (project) {
-    var currentYear = "year" + getCurrentYear()
-    var funds = parseInt(project[currentYear]) 
-    if (funds > 0) spent = spent + funds
-    getPreviousYears().forEach(function (year) {
-      var funds = parseInt(project[year])
-      if (funds > 0) spent = spent + funds 
-    })
-  })
-  return spent
-} 
+// filtering Category on "projections" spreadsheet
 
 function getType(projects, projectFilter) {
   var filteredProjects = []
   projects.forEach(function (element) {
     var projectType = element[categoryColumn]
     if (projectType === projectFilter) filteredProjects.push(element)
-})
-return filteredProjects
+  })
+  return filteredProjects
 }
 
-function getMonthlyType(projects, projectFilter) {
+// ---------------------------------------------------- //
+
+// filtering to Category on "actuals" spreadsheet
+
+function getActualsArea(projects, projectFilter) {
   var filteredProjects = []
   projects.forEach(function (element) {
     var projectType = element[focusAreaColumn]
     if (projectType === projectFilter) filteredProjects.push(element)
-})
-return filteredProjects
+  })
+  return filteredProjects
 }
+
+// ---------------------------------------------------- //
+
+function getActualsCategory(projects, projectFilter) {
+  var filteredProjects = []
+  projects.forEach(function (element) {
+    var projectType = element[categoryColumn]
+    if (projectType === projectFilter) filteredProjects.push(element)
+  })
+  return filteredProjects
+}
+
+// ---------------------------------------------------- //
+
+// filteriong to Focus Area
   
 function getProject(projects, projectFilter){
   var oneProject = []
   projects.forEach(function (element) {
 	  var name = element[focusAreaColumn]
 	  if (name === projectFilter) oneProject.push(element)
-})
-return oneProject
+  })
+  return oneProject
 }
-	
+
+// ---------------------------------------------------- //
+
+// turning into currency 
+
 function getMoney(value) {
   if (value === "") return false
   return accounting.formatMoney(parseInt(value))  
@@ -127,7 +109,6 @@ function turnReportCurrency(projects) {
   return projects
 }
 
-
 function turnMonthlyCurrency(projects) {
   projects.forEach(function (project) {
   var actualMoney = getMoney(project.actual)
@@ -137,6 +118,10 @@ function turnMonthlyCurrency(projects) {
   })
   return projects
 }
+
+// ------------------------------------------------ //
+
+// for quick stats table
 
 function getInProgress (projects) {
   var inProgress = []
@@ -156,47 +141,92 @@ function inProgressSpent (projects) {
     return a + b
   })
 }
+
+// ------------------------------------------- //
   
-function comboArrays(projectsA, projectsB) {
-	 var arrayA = projectsA
-	 var arrayB = projes
-	 var comboArray = arrayA.concat(arrayB)
-	 return comboArray
- } 
+// function comboArrays(projectsA, projectsB) {
+// 	 var arrayA = projectsA
+// 	 var arrayB = projes
+// 	 var comboArray = arrayA.concat(arrayB)
+// 	 return comboArray
+//  } 
 
-function isComplete(element) {
-  var currentYear = "year" + getCurrentYear()
-  var dollars = element[currentYear]
-  if (dollars > 0) return "active"
-  else 
-  return "not active"
-}
+// function isComplete(element) {
+//   var currentYear = "year" + getCurrentYear()
+//   var dollars = element[currentYear]
+//   if (dollars > 0) return "active"
+//   else 
+//   return "not active"
+// }
 
-function getPreviousYears() {
-  var currentYear = "year" + getCurrentYear()
-  return YEARS.slice(0, YEARS.indexOf(currentYear))
-}
+// function getPreviousYears() {
+//   var currentYear = "year" + getCurrentYear()
+//   return YEARS.slice(0, YEARS.indexOf(currentYear))
+// }
 
-function getFutureYears() {
-  var currentYear = "year" + getCurrentYear()
-  return YEARS.slice(YEARS.indexOf(currentYear))
-}
+// function getFutureYears() {
+//   var currentYear = "year" + getCurrentYear()
+//   return YEARS.slice(YEARS.indexOf(currentYear))
+// }
 
-function hasActiveFuture(element) {
-  var activeFuture = false
-  getFutureYears().forEach(function (year){
-    if (element[year] > 0) activeFuture = true            
-  })   
-  return activeFuture
-}
+// function hasActiveFuture(element) {
+//   var activeFuture = false
+//   getFutureYears().forEach(function (year){
+//     if (element[year] > 0) activeFuture = true            
+//   })   
+//   return activeFuture
+// }
 
-function getActiveProjects(projects) {
-  var activeProjects = []
-  projects.forEach(function getActive(element) {
-    if (isActive(element)) activeProjects.push(element)
-  })
-  return activeProjects
-}
+// function getActiveProjects(projects) {
+//   var activeProjects = []
+//   projects.forEach(function getActive(element) {
+//     if (isActive(element)) activeProjects.push(element)
+//   })
+//   return activeProjects
+// }
+
+// function getProjectTotal(project) {
+//   var projectTotal = project[tot]
+//   return projectTotal
+// }
+
+// function getCatTotal(projects) {
+//   var catTotal = 0
+//   projects.forEach(function (element) {
+//     var projectTotal = element[tot]
+//     catTotal += parseInt(projectTotal)
+//   })
+//   return catTotal
+// }
+
+// function completedProjects(projects) {
+//   var completed = 0
+//   projects.forEach(function (project) {
+//     if (!hasActiveFuture(project)) completed = completed + 1
+//   })
+//   return completed      
+// }
+
+// function isActive(element) {
+//   var currentYear = "year" + getCurrentYear()
+//   var dollars = element[currentYear]
+//   if (dollars > 0) return true
+//   return false
+// }
+
+// function amountSpent(projects) {
+//   var spent = 0
+//   projects.forEach(function (project) {
+//     var currentYear = "year" + getCurrentYear()
+//     var funds = parseInt(project[currentYear]) 
+//     if (funds > 0) spent = spent + funds
+//     getPreviousYears().forEach(function (year) {
+//       var funds = parseInt(project[year])
+//       if (funds > 0) spent = spent + funds 
+//     })
+//   })
+//   return spent
+// } 
 
 // Mappin' with Leaflet.js
 

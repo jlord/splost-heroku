@@ -157,7 +157,7 @@ Template Name: Focus Area Template
     
     
 <script id="stats" type="text/html">
- <h5>This Focus Area has <span class="statHighlight">{{numberItemizedProjects}}</span> projects, <span class="statHighlight">{{numberInProgress}}</span> of which labeled in progress.</h5>
+ <h5><?php the_title(); ?> has <span class="statHighlight">{{numberItemizedProjects}}</span> projects, <span class="statHighlight">{{numberInProgress}}</span> of which labeled in progress.</h5>
  <h5>To date, <span class="statHighlight">{{sumInProgress}}</span> has been spent on the projects in progress.</h5>
 </script>
   
@@ -242,52 +242,41 @@ Template Name: Focus Area Template
       axis = r.g.axis(160, axisY, makeAxisLength(), noProjsInCat, null,noProjsInCat - 1,1, labels.reverse(), null, 1);
       axis.text.attr({font:"12px Arvo", "font-weight": "regular", "fill": "#333333"});     
       
-    // variables to fill in tables 
-    // var numberActive = getActiveProjects(thePageName).length  
-    var itemizedArea = getMonthlyType(tabletop.sheets("actuals").all(), pageName)
-    var inProgress = getInProgress(itemizedArea)
-    var sumInProgress = inProgressSpent(itemizedArea)
-    console.log(sumInProgress)
-    var numberTotalProjects = data.length
-    var totalSpent = amountSpent(thePageName)
-    var catTotal = getCatTotal(thePageParent)
+      // variables to fill in tables 
 
-    // -- monthly expense table
+      // -- quick stats table
+      var itemizedArea = getActualsArea(tabletop.sheets("actuals").all(), pageName)
+      var inProgress = getInProgress(itemizedArea)
+      var sumInProgress = inProgressSpent(itemizedArea)
 
-    var monthlyrev = getMonthlyType(tabletop.sheets("actuals").all(), pageName)
-    var reportmonth = getCurrentMonth() - 1
-    var reportyear = getCurrentYear()
+      // -- monthly expense table
+      var monthlyrev = getActualsArea(tabletop.sheets("actuals").all(), pageName)
+      var reportmonth = getCurrentMonth() - 1
+      var reportyear = getCurrentYear()
 
 
-     // These define the tables 
+      // These define the tables 
 
-     var stats = ich.stats({
-      "numberItemizedProjects": itemizedArea.length,
-      "numberInProgress": inProgress.length,
-      "sumInProgress": accounting.formatMoney(sumInProgress),
-      "projectTotal":    accounting.formatMoney(),
-       "categoryTotal":       accounting.formatMoney(catTotal),
-       "isActive":         isActive(thePageName),
-       // "numberActive":        numberActive,
-       "numberTotalProjects":     numberTotalProjects,
-       // "numberCompletedProjects":   numberCompletedProjects,
-      "totalSpent":        accounting.formatMoney(totalSpent),
-       "currentDate":         getCurrentYear()
-     })
+      var stats = ich.stats({
+        "numberItemizedProjects": itemizedArea.length,
+        "numberInProgress": inProgress.length,
+        "sumInProgress": accounting.formatMoney(sumInProgress),
+        "currentDate": getCurrentYear()
+      })
 
-    var schedule = ich.schedule({
-       "rows": turnCurrency(thePageName)
-    }) 
+      var schedule = ich.schedule({
+        "rows": turnCurrency(thePageName)
+      }) 
 
-    var monthly = ich.monthly({
-      "rows": turnReportCurrency(monthlyrev),
-      "reportyear": reportyear,
-      "reportmonth": reportmonth
-    })
+      var monthly = ich.monthly({
+        "rows": turnReportCurrency(monthlyrev),
+        "reportyear": reportyear,
+        "reportmonth": reportmonth
+      })
     
-    document.getElementById('stats').innerHTML = stats; 
-    document.getElementById('table').innerHTML = schedule;
-    document.getElementById('monthly').innerHTML = monthly;
+      document.getElementById('stats').innerHTML = stats; 
+      document.getElementById('table').innerHTML = schedule;
+      document.getElementById('monthly').innerHTML = monthly;
    }
 </script>
 
