@@ -24,7 +24,7 @@ Template Name: Revenue Page Template
     <p>Chart coming soon.</p>
 	  <div id="holder"></div>
 
-  <h3>Economic Development Monthly Revenue</h3>
+  <h3>Monthly Revenue</h3>
     <p>Something about fiscal years starting on July 1 and what budgeted and actual mean.</p> 
     <div id="monthly"><img class="spinner" src="/wp-content/themes/wp-splost/fbi_spinner.gif"></div>
 
@@ -129,8 +129,8 @@ Template Name: Revenue Page Template
           
 
       var monthlyrev = getActualsArea(tabletop.sheets("actuals").all(), pageName)
-      var totalBudgeted = getTotalBudget(monthlyrev)
-      var totalActual = getTotalActual(monthlyrev)
+      var totalBudgeted = getColumnTotal(monthlyrev, "budget")
+      var totalActual = getColumnTotal(monthlyrev, "ptdactual")
       var reportmonth = getCurrentMonth() - 1
       var reportyear = getCurrentYear()
 

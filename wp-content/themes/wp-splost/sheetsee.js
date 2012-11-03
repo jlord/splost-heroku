@@ -76,30 +76,24 @@ function getProject(projects, projectFilter){
   return oneProject
 }
 
-// get total budget for revenue
-
-function getTotalBudget(projects){
-  var budgetDollars = []
+function getStatusCount(projects, statusFilter) {
+  var statusGroup = []
   projects.forEach(function (project) {
-    if (project.budget === "") return 
-    budgetDollars.push(+project.budget) 
+    if (project.status.match(statusFilter)) statusGroup.push(project)
   })
-  return budgetDollars.reduce(function(a,b) {
-    return a + b
-  })
+  return statusGroup.length
+  if (statusGroup = []) return "0" 
 }
 
-// ---------------------------------------------------- //
+// get column total 
 
-// get total actual for revenue
-
-function getTotalActual(projects){
-  var actualDollars = []
+function getColumnTotal(projects, column){
+  var dollars = []
   projects.forEach(function (project) {
-    if (project.ptdactual === "") return 
-    actualDollars.push(+project.ptdactual) 
+    if (project[column] === "") return 
+    dollars.push(+project[column]) 
   })
-  return actualDollars.reduce(function(a,b) {
+  return dollars.reduce(function(a,b) {
     return a + b
   })
 }
@@ -136,11 +130,11 @@ function turnReportCurrency(projects) {
   projects.forEach(function (project) {
     var totalBudget = getMoney(project.budget)
     if (totalBudget) project.budget = totalBudget
-    })
-    projects.forEach(function (project){
+  })
+  projects.forEach(function (project){
     var totalPTD = getMoney(project.ptdactual)
     if (totalPTD) project.ptdactual = totalPTD
-    })
+  })
   return projects
 }
 
@@ -162,11 +156,13 @@ function getInProgress (projects) {
   var inProgress = []
   projects.forEach(function (project) {
     if (project.status.match(/in progress/i)) inProgress.push(project)
+      else return "0"
   })
   return inProgress
 }
 
 function inProgressSpent (projects) {
+  if (projects = []) return "0"
   var inProgressDollars = []
   projects.forEach(function (project) {
     if (project.ptdactual === "") return 
