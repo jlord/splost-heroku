@@ -85,8 +85,7 @@ Template Name: Category Overview Template
     
 <script id="stats" type="text/html">
  <h5><?php the_title(); ?> has <span class="statHighlight">{{numberFocusAreas}}</span> Focus Areas with a combined <span class="statHighlight">{{numberItemizedProjects}}</span> projects.</h5>
- <h5><span class="statHighlight">{{numberInProgress}}</span> of these projects are labeled in progress.</h5>
- <h5>To date, <span class="statHighlight">{{sumInProgress}}</span> has been spent on the projects in progress.</h5>
+ <h5><span class="statHighlight">{{numberInProgress}}</span> of these projects are labeled in progress and <span class="statHighlight">{{completeProjects}}</span> are complete.</h5>
 </script>
     
    <script id="schedule" type="text/html">
@@ -190,11 +189,7 @@ Template Name: Category Overview Template
       var itemizedArea = getActualsCategory(tabletop.sheets("actuals").all(), pageParent)
       var inProgress = getInProgress(itemizedArea)
       var sumInProgress = inProgressSpent(itemizedArea)
-
-      // var numberActive = getActiveProjects(thePageParent).length
-      // var numberTotalProjects = 2
-      // var numberCompletedProjects = completedProjects(thePageParent)
-      // var totalSpent = amountSpent(thePageParent)
+      var completeProjects = getStatusCount(itemizedArea, "Complete")
 
       var schedule = ich.schedule({
         "rows": turnCurrency(thePageParent)
@@ -205,7 +200,8 @@ Template Name: Category Overview Template
         "numberInProgress": inProgress.length,
         "sumInProgress": accounting.formatMoney(sumInProgress),
         "currentDate": getCurrentYear(),
-        "numberFocusAreas": numberFocusAreas
+        "numberFocusAreas": numberFocusAreas,
+        "completeProjects": completeProjects
       })
 
      document.getElementById('schedule').innerHTML = schedule;
