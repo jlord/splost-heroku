@@ -100,7 +100,7 @@ Template Name: Revenue Page Template
 
        // monthly revenue stacked bar chart in d3 
 
-function renderRevenueGraph(data, divTown, monthlyrev) {
+function renderRevenueGraph(data, divTown) {
 
   var margin = {top: 20, right: 20, bottom: 30, left: 70},
       width = 780 - margin.left - margin.right,
@@ -198,7 +198,7 @@ var reformattedData = monthlyrev.map(function(i){
   return { State: i.project, budgeted: +i.budget, actual: +i.ptdactual }
 })
  
-      if (Modernizr.svg) renderRevenueGraph(reformattedData, "#holder", monthlyrev)
+      if (Modernizr.svg) renderRevenueGraph(reformattedData, "#holder")
       else sorrySVG("#holder")
 
       function sorrySVG(divTown) {
