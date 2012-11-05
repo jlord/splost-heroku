@@ -21,7 +21,6 @@ Template Name: Revenue Page Template
   <h3>Quick Stats</h3>
     <div id="stats"></div>
   <h3>Revenue Received</h3>
-    <p>Chart coming soon.</p>
 	  <div id="holder"></div>
 
   <h3>Monthly Revenue</h3>
@@ -90,17 +89,20 @@ Template Name: Revenue Page Template
        function showInfo(data, tabletop) {
                
                
-         accounting.settings.currency.precision = 0
-         var pageParent = "<?php echo get_the_title($post->post_parent) ?>"
-         var pageName = "<?php the_title(); ?>"
-         var thePageParent = getType(data, pageParent)
-         var thePageName  = getProject(data, pageName)
+       accounting.settings.currency.precision = 0
+       var pageParent = "<?php echo get_the_title($post->post_parent) ?>"
+       var pageName = "<?php the_title(); ?>"
+       var thePageParent = getType(data, pageParent)
+       var thePageName  = getProject(data, pageName)
 
-// start d3 
+       var monthlyrev = getActualsArea(tabletop.sheets("actuals").all(), pageName)
+       var dataLength = monthlyrev.length
 
-function renderGraph(data, divTown) {
+       // monthly revenue stacked bar chart in d3 
 
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+function renderRevenueGraph(data, divTown, monthlyrev) {
+
+  var margin = {top: 20, right: 20, bottom: 30, left: 70},
       width = 780 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
@@ -111,7 +113,7 @@ function renderGraph(data, divTown) {
       .rangeRound([height, 0]);
 
   var color = d3.scale.ordinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+      .range(["#BCEDDC","#e6e6e6","#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
   var xAxis = d3.svg.axis()
       .scale(x)
@@ -120,15 +122,13 @@ function renderGraph(data, divTown) {
   var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .tickFormat(d3.format(".2s"));
+      // .tickFormat(d3.format(".2s"));
 
   var svg = d3.select(divTown).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
 
   color.domain(d3.keys(data[0]).filter(function(key) { return key !== "State"; }));
 
@@ -138,7 +138,7 @@ function renderGraph(data, divTown) {
     d.total = d.ages[d.ages.length - 1].y1;
   });
 
-  data.sort(function(a, b) { return b.total - a.total; });
+  // data.sort(function(a, b) { return b.total - a.total; });
 
   x.domain(data.map(function(d) { return d.State; }));
   y.domain([0, d3.max(data, function(d) { return d.total; })]);
@@ -156,7 +156,7 @@ function renderGraph(data, divTown) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Budget Amount");
+      .text("Dollars");
 
   var state = svg.selectAll(".state")
       .data(data)
@@ -193,22 +193,18 @@ function renderGraph(data, divTown) {
 
 };
 
-var monthlyrev = getActualsArea(tabletop.sheets("actuals").all(), pageName)
 var reformattedData = monthlyrev.map(function(i){
   // this data format comes from http://bl.ocks.org/3886208
   return { State: i.project, budgeted: +i.budget, actual: +i.ptdactual }
 })
-if (Modernizr.svg) renderGraph(reformattedData, "#holder")
-else sorrySVG("#holder")
+ 
+      if (Modernizr.svg) renderRevenueGraph(reformattedData, "#holder", monthlyrev)
+      else sorrySVG("#holder")
 
-function sorrySVG(divTown) {
-  $(divTown).text("Sorry, to see the chart you'll need to update your browswer.")
-}
+      function sorrySVG(divTown) {
+        $(divTown).text("Sorry, to see the chart you'll need to update your browser.")
+      }
 
-
-
-
-      var monthlyrev = getActualsArea(tabletop.sheets("actuals").all(), pageName)
       var totalBudgeted = getColumnTotal(monthlyrev, "budget")
       var totalActual = getColumnTotal(monthlyrev, "ptdactual")
       var reportmonth = getCurrentMonth() - 1
@@ -218,7 +214,7 @@ function sorrySVG(divTown) {
       //These populate the page's tables 
 
       var monthly = ich.monthly({
-        "rows": monthlyrev,
+        "rows": turnReportCurrency(monthlyrev),
         "reportyear": reportyear,
         "reportmonth": reportmonth
       })

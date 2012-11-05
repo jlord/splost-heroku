@@ -33,7 +33,7 @@ Template Name: Category Overview Template
 
   <div class="articleHolder"> 
     <h3>Category Funding Comparison</h3>
-      <p>Below, a funds comparison between this category's projects.</p>
+      <p>Below, a funds comparison between this category's Focus Areas.</p>
   	  <div id="holder"></div>
   </div><!-- end holder -->
 
@@ -139,49 +139,14 @@ Template Name: Category Overview Template
           displayAddress(map, thePageParent)
       })
 
-      // make bar chart
+var noProjsInCat = thePageParent.length 
 
-      function pushBits(element) {
-          values.push(parseInt(element.total))
-          labels.push(element.focusarea)
-          hexcolors.push(element.hexcolor)
-      }
-            
-      // -- axis variables
+if (Modernizr.svg) renderGraph(thePageParent, noProjsInCat, "#holder") 
+else sorrySVG("#holder")
 
-      var noProjsInCat = thePageParent.length 
-      var noProjsMinusOne = noProjsInCat - 1
-      var topOffset = 10
-      var chartHeight = (noProjsInCat * 40) + topOffset
-      var gutterTotal = noProjsMinusOne * 10
-      var axisLength = chartHeight - 50
-      // -- set up chart
-      document.querySelector('#holder').style.height = (chartHeight + topOffset) + "px"
-
-      var r = Raphael("holder")
-      var values = []
-      var labels = []
-      var hexcolors = []
-          thePageParent.forEach(pushBits)
-      
-      // (paper, x, y, width, height, values, opts)
-      r.g.hbarchart(220, topOffset, 480, chartHeight, values, {stacked: true, type: "soft", colors: hexcolors}).hoverColumn(
-        function() { 
-          var y = []
-          var res = []
-
-              for (var i = this.bars.length; i--;) {
-                  y.push(this.bars[i].y);
-                  res.push(this.bars[i].value || "0");
-              }
-              this.flag = r.g.popup(this.bars[0].x, Math.min.apply(Math, y), res.join(", ")).insertBefore(this);
-      }, function() {
-            this.flag.animate({opacity: 0}, 1500, ">", function () {this.remove();});
-      });
-      // (x, y, length, from, to, steps, orientation, labels, type, dashsize, paper)
-      axis = r.g.axis(200, axisLength + topOffset + 23, axisLength, null, null, noProjsMinusOne,1, labels.reverse(), null, 1);
-      axis.text.attr({font:"12px Arvo", "font-weight": "regular", "fill": "#333333"}); 
-          
+function sorrySVG(divTown) {
+  $(divTown).text("Sorry, to see the chart you'll need to update your browser. <a href='https://www.google.com/intl/en/chrome/browser/'>Google Chrome</a> is great.")
+}
       // variables to fill in tables 
 
       // -- stats table
@@ -204,8 +169,9 @@ Template Name: Category Overview Template
         "completeProjects": completeProjects
       })
 
-     document.getElementById('schedule').innerHTML = schedule;
-     document.getElementById('stats').innerHTML = stats; 
+
+     $('#schedule').html(schedule)
+     $('#stats').html(stats)
 
        }
     </script>
