@@ -168,27 +168,4 @@ function sorrySVG(divTown) {
 
 
 <?php get_sidebar(); ?>
-<?php get_footer(); ?>dule = ich.schedule({
-        "rows": turnCurrency(thePageParent)
-      })
-
-      var stats = ich.stats({
-        "numberItemizedProjects": itemizedArea.length,
-        "numberInProgress": inProgress.length,
-        "sumInProgress": accounting.formatMoney(sumInProgress),
-        "currentDate": getCurrentYear(),
-        "numberFocusAreas": numberFocusAreas,
-        "completeProjects": completeProjects
-      })
-
-
-     $('#table').html(schedule)
-     $('#stats').html(stats)
-
-       }
-    </script>
-
-
-
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>

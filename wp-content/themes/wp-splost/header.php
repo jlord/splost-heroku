@@ -123,12 +123,3 @@
   <h2><?php the_title(); ?> / <?php echo $parent_title ?></h2>
 </div>
 
-
-     </div><!-- #bread_box END -->
-
-<div id="printHeader">
-  <h1>Your Macon 2012 SPLOST Report</h1>
-  <h6>Category/Project:</h6>
-  <h2><?php the_title(); ?> / <?php echo $parent_title ?></h2>
-</div>
-

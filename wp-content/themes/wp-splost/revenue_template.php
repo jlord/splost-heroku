@@ -237,13 +237,4 @@ var reformattedData = monthlyrev.map(function(i){
     </script>
 
 <?php get_sidebar(); ?>
-<?php get_footer(); ?>html(monthly)
-         $('#stats').html(stats)
-
-       }
-    </script>
-
-
-
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>
