@@ -42,15 +42,6 @@ Template Name: Category Overview Template
       <p>This is the funding schedule budget as proposed by the SPLOST bill.<p>
       <div id="table"></div>
   </div><!-- end holder -->
-   <!-- maybe this way  
-  <h3>Economic Development Monthly Revenue</h3>
-    <p>Each month we publish a report on our expenses and tax/bond revenue. 
-      Below is an itemization for <?php echo the_title() ?> related expenses. 
-      You can find an archive of reports <a href="http://splost.codeforamerica.org/?s=monthly+report">here</a>.</p>
-  <div id="monthly"></div> -->
-
- <!-- <h3>Economic Development Monthly Revenue</h3>
-    <p>Visit the individual project pages to learn more about monthly itemizations of active projects.</p> -->
 
   <div id="sharing">
     <p>Share this page: </p>
@@ -124,8 +115,7 @@ Template Name: Category Overview Template
     })    
 
       function showInfo(data, tabletop) {
-               
-               
+                           
       accounting.settings.currency.precision = 0
       var pageParent = "<?php echo get_the_title($post->post_parent) ?>"
       var pageName = "<?php the_title(); ?>"
@@ -157,6 +147,28 @@ function sorrySVG(divTown) {
       var completeProjects = getStatusCount(itemizedArea, "Complete")
 
       var schedule = ich.schedule({
+        "rows": turnCurrency(thePageParent)
+      })
+
+      var stats = ich.stats({
+        "numberItemizedProjects": itemizedArea.length,
+        "numberInProgress": inProgress.length,
+        "sumInProgress": accounting.formatMoney(sumInProgress),
+        "currentDate": getCurrentYear(),
+        "numberFocusAreas": numberFocusAreas,
+        "completeProjects": completeProjects
+      })
+
+     $('#table').html(schedule)
+     $('#stats').html(stats)
+
+       }
+</script>
+
+
+
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>dule = ich.schedule({
         "rows": turnCurrency(thePageParent)
       })
 
