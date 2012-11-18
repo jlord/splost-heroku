@@ -1,53 +1,39 @@
-  <div id="footer">
+<div id="footer">
 
-<div class="footerThird">
-  <h4>Built by Code for America in partnership with Macon, Georgia.</h4>
-  <img src="/wp-content/themes/wp-splost/logos.png" width="275px" />
-</div>
-<div class="footerThird">
-	<?php
+  <div class="footerThird"><!-- one of the 3 columns in footer -->
+    <h4>Built by Code for America in partnership with Macon, Georgia.</h4>
+    <img src="/wp-content/themes/wp-splost/logos.png" width="275px" />
+  </div>
 
-// Your twitter username.
-$username = "mayorreichert";
+  <div class="footerThird"><!-- one of the 3 columns in footer -->
+    <h4>Stay in the Loop</h4>
+      <h6>Twitter</h6>
+        <h5><a href="https://twitter.com/mayorreichert" target="_blank">Mayor Reichert's Twitter</a></h5>
+        <h5><a href="https://twitter.com/ChairmanHart" target="_blank">Chairman Hart's Twitter</a></h5>
+      <h6>Facebook</h6>
+        <h5><a href="http://www.facebook.com/mayorreichert" target="_blank">Mayor Reichert's Facebook</a></h5>
+        <h5><a href="http://www.facebook.com/SamHartForChairman2012" target="_blank">Chairman Hart's Facebook</a></h5>
+  </div>
 
-$prefix = "<h3><a href=\"http://www.twitter.com/MayorReichert\">@MayorReichert</a>'s Latest Tweet</h3><div id='tweet'><p>";
+  <div class="footerThird"><!-- one of the 3 columns in footer -->
+    <h4>Latest Posts</h4>
+      <?php // queries blog posts for the latest three posts
+      $args = array( 'numberposts' => 3, 'order'=> 'DESC', 'orderby' => 'post_date' );
+      $postslist = get_posts( $args );
+      foreach ($postslist as $post) :  setup_postdata($post); ?> 
+      	<div class="oneLatestPost">
+      		<h6><?php the_date(); ?></h6>
+      		<h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+      	</div>
+      <?php endforeach; ?>
+  </div>
 
-$suffix = "</p></div>";
-
-$feed = "http://search.twitter.com/search.atom?q=from:" . $username . "&rpp=1";
-
-function parse_feed($feed) {
-    $stepOne = explode("<content type=\"html\">", $feed);
-    $stepTwo = explode("</content>", $stepOne[1]);
-    $tweet = $stepTwo[0];
-    $tweet = str_replace("&lt;", "<", $tweet);
-    $tweet = str_replace("&gt;", ">", $tweet);
-    $tweet = str_replace("&amp;", "&", $tweet);
-    return $tweet;
-}
-
-$twitterFeed = file_get_contents($feed);
-echo stripslashes($prefix) . parse_feed($twitterFeed) . stripslashes($suffix);
-?>
-</div>
-<div class="footerThird">
-<h4>Latest Posts</h4>
-<?php
-$args = array( 'numberposts' => 3, 'order'=> 'DESC', 'orderby' => 'post_date' );
-$postslist = get_posts( $args );
-foreach ($postslist as $post) :  setup_postdata($post); ?> 
-	<div class="oneLatestPost">
-		<h6><?php the_date(); ?></h6>
-		<h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-	</div>
-<?php endforeach; ?>
-
-</div>
-
-
-    </div><!-- #footer end -->
+</div><!-- #footer end -->
 
 </div><!-- #pagewrapper end -->
+
+
+<?php wp_footer(); ?>
 
 <script type="text/javascript">
   //makes g+ button
@@ -68,6 +54,5 @@ foreach ($postslist as $post) :  setup_postdata($post); ?>
   fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 </script>
-<?php wp_footer(); ?>
 </body>
 </html>

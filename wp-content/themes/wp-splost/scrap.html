@@ -1,3 +1,34 @@
+<!--  twitter thing -->
+<?php
+
+$username = "mayorreichert";
+
+$prefix = "<h3><a href=\"http://www.twitter.com/MayorReichert\">@MayorReichert</a>'s Latest Tweet</h3><div id='tweet'><p>";
+
+$suffix = "</p></div>";
+
+$feed = "http://search.twitter.com/search.atom?q=from:" . $username . "&rpp=1";
+
+function parse_feed($feed) {
+    $stepOne = explode("<content type=\"html\">", $feed);
+    $stepTwo = explode("</content>", $stepOne[1]);
+    $tweet = $stepTwo[0];
+    $tweet = str_replace("&lt;", "<", $tweet);
+    $tweet = str_replace("&gt;", ">", $tweet);
+    $tweet = str_replace("&amp;", "&", $tweet);
+    return $tweet;
+}
+
+$twitterFeed = file_get_contents($feed);
+echo stripslashes($prefix) . parse_feed($twitterFeed) . stripslashes($suffix);
+?>
+<!-- jsdalfkjaklsjfklsjdfklj -->
+
+
+
+
+
+
     <?php
     $args = array( 'numberposts' => 5, 'order'=> 'DESC', 'orderby' => 'post_date', 'tag' => 'map' );
     $postslist = get_posts( $args );
