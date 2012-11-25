@@ -1,3 +1,4 @@
+:)
 # HI!
 # Documentation for See Penny Work
 ### What?
