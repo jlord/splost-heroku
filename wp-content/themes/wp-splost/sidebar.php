@@ -2,7 +2,7 @@
   <h5>OVERVIEW & REPORTS</h5>
   <div class="menu">
    <div class="button"><a href="/splost/overview/">SPLOST Overview</a></div>   
-   <div class="button"><a href="/splost/revenue/">Montly Revenue</a></div>
+   <div class="button"><a href="/splost/revenue/">Monthly Revenue</a></div>
   </div>
   <div style="clear:both;"></div>
    

@@ -12,7 +12,7 @@
         <h5><a href="https://twitter.com/ChairmanHart" target="_blank">Chairman Hart's Twitter</a></h5>
       <h6>Facebook</h6>
         <h5><a href="http://www.facebook.com/mayorreichert" target="_blank">Mayor Reichert's Facebook</a></h5>
-        <h5><a href="http://www.facebook.com/SamHartForChairman2012" target="_blank">Chairman Hart's Facebook</a></h5>
+        <h5><a href="https://www.facebook.com/bcboc?fref=ts" target="_blank">Bibb County Board of Commissioners's Facebook</a></h5>
   </div>
 
   <div class="footerThird"><!-- one of the 3 columns in footer -->

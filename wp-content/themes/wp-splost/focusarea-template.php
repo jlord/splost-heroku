@@ -36,7 +36,7 @@ Template Name: Focus Area Template
 
   <div class="articleHolder">
     <h3>Category Funding Comparison</h3>
-      <p>Below, a funds comparison between the Foucs Areas in <?php echo get_the_title($post->post_parent) ?>.</p>
+      <p>Below, a funds comparison between the Focus Areas in <?php echo get_the_title($post->post_parent) ?>.</p>
       <div id="holder"></div><!-- holds spot for bar chart -->
   </div><!-- end holder -->
 
@@ -176,12 +176,15 @@ Template Name: Focus Area Template
 </script>
   
 <script type="text/javascript"> // make all the good stuff!   
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
      loadSpreadsheet(showInfo)
    })    
 
+
+
    function showInfo(data, tabletop) {
-     window.tabletopData = tabletop       
+     window.tabletopData = tabletop   
+
 
      accounting.settings.currency.precision = 0
      var pageParent = "<?php echo get_the_title($post->post_parent) ?>" // get Parent Page name which is Category
@@ -189,27 +192,33 @@ Template Name: Focus Area Template
      var thePageParent = getType(data, pageParent) // Filter to array of Category
      var thePageName  = getProject(data, pageName) // Filte to object of Focus Area
 
+
+     function  getGroup(element, filter) {
+        var filter = pageName
+        var type = element["focusarea"]
+        var type = filter
+    }
+     console.log(data.filter(getGroup))    
+
      // make map 
 
      var map = loadMap()
-     thePageName.forEach(function (thePageName){
+     thePageName.forEach(function (thePageName){ // forEach doesn't exist in IE8 below, see alternate function in sheetsee
        displayAddress(map, thePageName)
      })
 
-var noProjsInCat = thePageParent.length 
-// if user's browswer doesn't support SVG, tell them
-if (Modernizr.svg) renderGraph(thePageParent, noProjsInCat, "#holder") 
-  else sorrySVG("#holder")
-
-function sorrySVG(divTown) {
-  $(divTown).text("Sorry, to see the chart you'll need to update your browser. <a href='https://www.google.com/intl/en/chrome/browser/'>Google Chrome</a> is great.")
-}
-      // These define the tables 
-
-      // -- managing entity 
-      var entity = ich.entity({
-        "entity": thePageName[0].entity
-      })
+     var noProjsInCat = thePageParent.length 
+     // if user's browswer doesn't support SVG, tell them
+     if (Modernizr.svg) renderGraph(thePageParent, noProjsInCat, "#holder") 
+       else sorrySVG("#holder") 
+     function sorrySVG(divTown) {
+       $(divTown).text("Sorry, to see the chart you'll need to update your browser. <a href='https://www.google.com/intl/en/chrome/browser/'>Google Chrome</a> is great.")
+     }
+     // These define the tables  
+     // -- managing entity 
+     var entity = ich.entity({
+       entity: thePageName[0].entity
+     })
 
       // -- quick stats table
       var itemizedArea = getActualsArea(tabletop.sheets("actuals").all(), pageName)
@@ -218,16 +227,16 @@ function sorrySVG(divTown) {
       var sumInProgress = inProgressSpent(itemizedArea)
 
       var stats = ich.stats({
-        "numberItemizedProjects": itemizedArea.length,
-        "numberInProgress": inProgress.length,
-        "sumInProgress": accounting.formatMoney(sumInProgress),
-        "currentDate": getCurrentYear(),
-        "completeProjects": completeProjects
+        numberItemizedProjects: itemizedArea.length,
+        numberInProgress: inProgress.length,
+        sumInProgress: accounting.formatMoney(sumInProgress),
+        currentDate: getCurrentYear(),
+        completeProjects: completeProjects
       })
 
       // -- schedule table
       var schedule = ich.schedule({
-        "rows": turnCurrency(thePageName)
+        rows: turnCurrency(thePageName)
       }) 
 
       // -- monthly expense table
@@ -235,9 +244,9 @@ function sorrySVG(divTown) {
       var reportmonth = getCurrentMonth() - 1
       var reportyear = getCurrentYear()
       var monthly = ich.monthly({
-        "rows": turnReportCurrency(monthlyrev),
-        "reportyear": reportyear,
-        "reportmonth": reportmonth
+        rows: turnReportCurrency(monthlyrev),
+        reportyear: reportyear,
+        reportmonth: reportmonth
       })
 
      // write these objects to the page
